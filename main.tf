@@ -32,11 +32,8 @@ resource "aws_subnet" "web_subnet" {
 
 resource "aws_instance" "web_instance" {
   ami = "ami-017fecd1353bcc96e"
-  instance_type = "t2.micro"
+  instance_type = var.var_instance_type
   subnet_id = aws_subnet.web_subnet.id
 
-  tags = {
-    Name = "tuts example"
-    foo = "bar"
-  }
+  tags = var.var_instance_tags
 }
