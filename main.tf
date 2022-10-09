@@ -13,11 +13,15 @@ provider "aws" {
   profile = "terraform"
 }
 
+locals {
+  setup_name = "tuts"
+}
+
 resource "aws_vpc" "web_vpc" {
   cidr_block = "10.5.0.0/16"
 
   tags = {
-    Name = "tuts vpc"
+    Name = "${local.setup_name} vpc"
   }
 }
 
@@ -26,7 +30,7 @@ resource "aws_subnet" "web_subnet" {
   cidr_block = "10.5.0.0/16"
 
   tags = {
-    Name = "tuts subnet"
+    Name = "${local.setup_name} subnet"
   }
 }
 
