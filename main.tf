@@ -1,21 +1,21 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "4.33.0"
     }
   }
 }
 
 provider "aws" {
-  region  = local.zone
-  shared_credentials_files = [ "$HOME/Downloads/creds" ]
-  profile = "terraform"
+  region                   = local.zone
+  shared_credentials_files = ["$HOME/Downloads/creds"]
+  profile                  = "terraform"
 }
 
 locals {
-  setup_name = "tuts"
-  zone = "us-west-2"
+  setup_name        = "tuts"
+  zone              = "us-west-2"
   availability_zone = "${local.zone}a"
 }
 
@@ -30,7 +30,7 @@ resource "aws_vpc" "web_vpc" {
 resource "aws_subnet" "web_subnet" {
   vpc_id = aws_vpc.web_vpc.id
   # vpc_id = data.aws_vpc.existing_vpc.id
-  cidr_block = "10.5.0.0/16"
+  cidr_block        = "10.5.0.0/16"
   availability_zone = local.availability_zone
 
   tags = {
@@ -39,11 +39,11 @@ resource "aws_subnet" "web_subnet" {
 }
 
 resource "aws_instance" "web_instance" {
-  ami = "ami-017fecd1353bcc96e"
-  instance_type = var.var_instance_type
-  subnet_id = aws_subnet.web_subnet.id
+  ami               = "ami-017fecd1353bcc96e"
+  instance_type     = var.var_instance_type
+  subnet_id         = aws_subnet.web_subnet.id
   availability_zone = local.availability_zone
-  count = var.var_instance_count
+  count             = var.var_instance_count
 
   # tags = var.var_instance_tags
   tags = {
