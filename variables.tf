@@ -1,6 +1,6 @@
 variable "var_instance_type" {
   type = string
-  # default = "t2.micro"
+  default = "t2.micro"
   description = "instance type"
 }
 
@@ -10,3 +10,5 @@ variable "var_instance_tags" {
     foo  = number
   })
 }
+
+variable "var_instance_count" { }
