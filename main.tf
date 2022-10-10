@@ -17,17 +17,18 @@ locals {
   setup_name = "tuts"
 }
 
-resource "aws_vpc" "web_vpc" {
-  cidr_block = "10.5.0.0/16"
-
-  tags = {
-    Name = "${local.setup_name} vpc"
-  }
-}
+# resource "aws_vpc" "web_vpc" {
+#   cidr_block = "10.5.0.0/16"
+#
+#   tags = {
+#     Name = "${local.setup_name} vpc"
+#   }
+# }
 
 resource "aws_subnet" "web_subnet" {
-  vpc_id = aws_vpc.web_vpc.id
-  cidr_block = "10.5.0.0/16"
+  # vpc_id = aws_vpc.web_vpc.id
+  vpc_id = data.aws_vpc.existing_vpc.id
+  cidr_block = "10.5.0.0/16" # ...
 
   tags = {
     Name = "${local.setup_name} subnet"
@@ -40,4 +41,12 @@ resource "aws_instance" "web_instance" {
   subnet_id = aws_subnet.web_subnet.id
 
   tags = var.var_instance_tags
+}
+
+data "aws_vpc" "existing_vpc" {
+  # default = true
+  filter {
+    name = "tag:Name"
+    values = [ "old" ]
+  }
 }
